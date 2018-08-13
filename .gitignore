@@ -24,6 +24,7 @@ wheels/
 .installed.cfg
 *.egg
 MANIFEST
+.idea/
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
@@ -89,6 +90,7 @@ venv/
 ENV/
 env.bak/
 venv.bak/
+venv_communicator
 
 # Spyder project settings
 .spyderproject
@@ -102,4 +104,14 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+
+# configurations files
+/db.py
 db.py
+
+# py packages
+*.whl
+*.tar.gz
+
+# dir with hash functions - test
+/hash_module
