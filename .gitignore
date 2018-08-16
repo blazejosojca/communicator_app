@@ -107,7 +107,7 @@ venv_communicator
 
 # configurations files
 /db.py
-db.py
+database/db_data.py
 
 # py packages
 *.whl
