@@ -1,46 +1,39 @@
 import mysql.connector
-from mysql.connector import connect
+from mysql.connector import connect, errorcode
 
 # password and user cleared
 DATABASE = {
     'NAME': 'communicator_app',
-    'PASSWORD': '##########',
-    'USER': "#####"
+    'PASSWORD': 'debil1984',
+    'USER': 'root'
 }
 
-TABLES = {}
-
-TABLES['users'] = (
-    """
+users_table = """
     CREATE TABLE users (
-    user_id int AUTO_INCREMENT,
+    id int AUTO_INCREMENT,
     username varchar(64),
     email varchar (64) UNIQUE,
-    PRIMARY KEY(user_id)
+    PRIMARY KEY(id)
     )
-    """)
-
-TABLES['messages'] = (
     """
+
+messages_table = """
     CREATE TABLE messages (
     message_id int AUTO_INCREMENT,
     text varchar(256),
     creation_date datetime NOT NULL,
     PRIMARY KEY(message_id)
-    )
-    """)
+    )"""
 
-TABLES['messages_users'] = (
-    """
+uses_messages_table = """
     CREATE TABLE messages_users (
     id int AUTO_INCREMENT,
     from_id int NOT NULL,
     to_id int NOT NULL,
     PRIMARY KEY(id),
-    FOREIGN KEY(from_id) REFERENCES users(user_id),
-    FOREIGN KEY(to_id) REFERENCES users(user_id)
-    )
-    """)
+    FOREIGN KEY(from_id) REFERENCES users(id),
+    FOREIGN KEY(to_id) REFERENCES users(id)
+    )"""
 
 
 def connect_to_db():
@@ -69,8 +62,24 @@ def create_db():
     except mysql.connector.Error:
         print(f"DB Error. Failed to create databse : {DATABASE['NAME']} ")
     finally:
-        init_cnx.close()
+        close_connection(init_cursor, init_cnx)
 
 
-if __name__ == '__main__':
-    create_db()
+def create_table(sql_table):
+    cnx = mysql.connector.connect(user=DATABASE['USER'], database = DATABASE['NAME'], password=DATABASE['PASSWORD'])
+    cursor = cnx.cursor()
+    try:
+        cursor.execute(sql_table)
+        print(f"Creating table {sql_table}")
+    except mysql.connector.Error as err_db:
+        if err_db == errorcode.ER_TABLE_EXISTS_ERROR:
+            print("table already exist")
+        else:
+            print(err_db.msg)
+    finally:
+        close_connection(cursor, cnx)
+
+
+create_table(users_table)
+create_table(messages_table)
+create_table(uses_messages_table)
