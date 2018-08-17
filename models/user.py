@@ -1,6 +1,4 @@
 from passlib.hash import argon2
-from mysql.connector import connect
-from database.db_production import connect_to_db, close_connection
 
 
 class User(object):
@@ -11,7 +9,7 @@ class User(object):
         self.__hashed_password = ""
 
     @property
-    def id(self):
+    def user_id(self):
         return self.__id
 
     @property
@@ -34,9 +32,9 @@ class User(object):
 
     @staticmethod
     def load_by_user_id(cursor, user_id):
-        sql = f"SELECT * FROM users WHERE user_id = {user_id}"
-        user_id = (user_id)
-        cursor.execute(sql, user_id)
+        sql = "SELECT * FROM users WHERE id=%s"
+        params = (user_id,)
+        cursor.execute(sql, params)
         data = cursor.fetchone()
 
         if data is not None:
@@ -48,7 +46,6 @@ class User(object):
             return loaded_user
         else:
             return None
-
 
     @staticmethod
     def load_all_users(cursor):
@@ -66,3 +63,14 @@ class User(object):
             all_users.append(loaded_user)
         return all_users
 
+    def delete(self, cursor):
+        sql = "DELETE FROM users WHERE id=%s"
+        cursor.execute(sql, self.__id)
+        self.__id = -1
+        return True
+
+    def __repr__(self):
+        pass
+
+    def __str__(self):
+        pass
