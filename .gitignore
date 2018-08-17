@@ -106,7 +106,6 @@ venv_communicator
 .mypy_cache/
 
 # configurations files
-/db.py
 database/db_data.py
 
 # py packages

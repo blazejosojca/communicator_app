@@ -4,9 +4,9 @@ from passlib.hash import argon2
 class User(object):
     def __init__(self):
         self.__id = -1
-        self.username = ""
-        self.email = ""
-        self.__hashed_password = ""
+        self.username = ''
+        self.email = ''
+        self.__hashed_password = ''
 
     @property
     def user_id(self):
@@ -30,11 +30,30 @@ class User(object):
             return True
         return False
 
+
+    def verify_user(self, cursor, username, password_try):
+        sql = f"SELECT * FROM users WHERE username={username} LIMIT 1"
+        cursor.execute(sql)
+        data = cursor.fetchone()
+        if data is not None:
+            self.__id = data[0]
+            self.email = data[2]
+            self.__hashed_password = data[3]
+        if argon2.verify(password_try,self.__hashed_password):
+            return True
+        return False
+
+    def update_password(self, cursor):
+        sql = 'UPDATE users SET hashed_password=%s WHERE id=%s'
+        values = (self.hashed_password, self.__id)
+        cursor.execute(sql, values)
+        return True
+
+
     @staticmethod
     def load_by_user_id(cursor, user_id):
-        sql = "SELECT * FROM users WHERE id=%s"
-        params = (user_id,)
-        cursor.execute(sql, params)
+        sql = f'SELECT * FROM users WHERE id={user_id}'
+        cursor.execute(sql)
         data = cursor.fetchone()
 
         if data is not None:
@@ -73,4 +92,4 @@ class User(object):
         pass
 
     def __str__(self):
-        pass
+        return  'User: {}, id: {}, email:{}'.format(self.username, self.__id, self.email)
