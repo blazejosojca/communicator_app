@@ -10,7 +10,7 @@ def manage_options():
                         dest="username", help="User login")
     parser.add_argument("-p", "--password", action="store",
                         dest="password", help="User password")
-    parser.add_argument("--e", "--email", action="store",
+    parser.add_argument("-e", "--email", action="store",
                         dest="email", help="User mail")
     parser.add_argument("-n", "--new-password", action="store",
                         dest="new_password", help="New user password")
@@ -38,7 +38,7 @@ def manage_users(parse_options):
         new_user.email = parse_options.email
         new_user.set_password(parse_options.password)
         new_user.save_to_db(cursor)
-        print(f"New user was added to db. "
+        print(f"New user was added to db."
               f"Name:{parse_options}")
 
     #lst users list
