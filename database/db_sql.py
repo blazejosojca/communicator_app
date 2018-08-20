@@ -1,7 +1,7 @@
 import mysql.connector
 from mysql.connector import errorcode
 from database.db_data import DATABASE
-from database.db_production import close_connection
+from database.db_production import close_connection, connect_to_db
 
 users_table = """
     CREATE TABLE users (
@@ -43,12 +43,7 @@ def create_db():
 
 
 def create_table(sql_table):
-    cnx = mysql.connector.connect(
-        user=DATABASE['USER'],
-        database=DATABASE['NAME'],
-        password=DATABASE['PASSWORD']
-    )
-    cursor = cnx.cursor()
+    cnx, cursor = connect_to_db()
     try:
         cursor.execute(sql_table)
         print(f"Creating table {sql_table}")
@@ -60,7 +55,6 @@ def create_table(sql_table):
     finally:
         close_connection(cursor, cnx)
 
-
-# create_db()
-# create_table(users_table)
-# create_table(messages_table)
+# # create_db()
+# # create_table(users_table)
+# # create_table(messages_table)
