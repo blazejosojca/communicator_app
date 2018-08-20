@@ -1,8 +1,8 @@
 from passlib.hash import argon2
 from database.db_production import connect_to_db, close_connection
 
-
-class User(object):
+#TODO finish tests
+class User:
     def __init__(self):
         self.__id = -1
         self.username = ''
