@@ -4,27 +4,61 @@ from database.db_production import connect_to_db, close_connection
 from models.user import User
 
 
-def set_options():
+def manage_options():
     parser = argparse.ArgumentParser()
     parser.add_argument("-u", "--username", action="store",
                         dest="username", help="User login")
     parser.add_argument("-p", "--password", action="store",
                         dest="password", help="User password")
+    parser.add_argument("--e", "--email", action="store",
+                        dest="email", help="User mail")
     parser.add_argument("-n", "--new-password", action="store",
                         dest="new_password", help="New user password")
     parser.add_argument("-l", "--list", action="store_true",
                         dest="list", help="Get users list")
     parser.add_argument("-d", "--delete", action="store",
                         dest="delete", help="Delete user")
-    parser.add_argument("-e", "--edit", action="store",
-                        dest="edit", help="Edit user")
-    options = parser.parse_args()
-    return options
+    parser.add_argument("-m", "--modify", action="store",
+                        dest="modify", help="Modify user")
 
-def manage_users(options):
-    options = set_options()
+    parse_options = parser.parse_args()
+    return parse_options
 
-    def delete_user(cursor, options):
-        deleted_user = User()
-        if deleted_user.verify_user() is T
+
+def manage_users(parse_options):
+    cnx, cursor = connect_to_db()
+
+    # adding new user
+    if(all([parse_options.username, parse_options.email,
+            parse_options.password]) and not any
+        ([parse_options.delete, parse_options.list,
+        parse_options.new_password, parse_options.edit])):
+        new_user = User()
+        new_user.username = parse_options.username
+        new_user.email = parse_options.email
+        new_user.set_password(parse_options.password)
+        new_user.save_to_db(cursor)
+        print(f"New user was added to db. "
+              f"Name:{parse_options}")
+
+    #lst users list
+    if(parse_options.list and not any([parse_options.delete, parse_options.list,
+        parse_options.new_password, parse_options.edit])):
+        users = User.load_all_users(cursor)
+        for user in users:
+            print(user)
+
+    #delete user
+    if(all([parse_options.delete, parse_options.username, parse_options.password]) and
+            not any([parse_options.list, parse_options.new_password,
+                parse_options.modify])):
+        deleted_user=User()
+        if deleted_user.verify_user(cursor, parse_options.username, parse_options.password):
+            pass
+
+    close_connection(cnx, cursor)
+    #modify user
+
+if __name__ == '__main__':
+    manage_users(manage_options())
 
