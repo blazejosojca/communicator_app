@@ -15,14 +15,14 @@ users_table = """
 
 messages_table = """
     CREATE TABLE messages (
-    message_id int AUTO_INCREMENT,
-    from_id int NOT NULL,
-    to_id int NOT NULL,
+    id int AUTO_INCREMENT,
+    from_user_id int NOT NULL,
+    to_user_id int NOT NULL,
     text varchar(256),
     creation_date datetime NOT NULL,
-    PRIMARY KEY(message_id),
-    FOREIGN KEY(from_id) REFERENCES users(id),
-    FOREIGN KEY(to_id) REFERENCES users(id)
+    PRIMARY KEY(id),
+    FOREIGN KEY(from_user_id) REFERENCES users(id),
+    FOREIGN KEY(to_user_id) REFERENCES users(id)
     )"""
 
 
@@ -32,7 +32,7 @@ def create_db():
         password=DATABASE['PASSWORD']
     )
     init_cursor = init_cnx.cursor()
-    init_sql = f"CREATE DATABASE IF EXISTS {DATABASE['NAME']} DEFAULT CHARACTER SET 'utf8'"
+    init_sql = f"CREATE DATABASE {DATABASE['NAME']} DEFAULT CHARACTER SET 'utf8'"
     try:
         init_cursor.execute(init_sql)
         print("DB created")
@@ -59,3 +59,8 @@ def create_table(sql_table):
             print(err_db.msg)
     finally:
         close_connection(cursor, cnx)
+
+
+# create_db()
+# create_table(users_table)
+# create_table(messages_table)
