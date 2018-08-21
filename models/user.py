@@ -1,6 +1,7 @@
 from passlib.hash import argon2
 from database.db_production import connect_to_db, close_connection
 
+
 #TODO finish tests
 class User:
     def __init__(self):
@@ -50,7 +51,6 @@ class User:
         cursor.execute(sql, values)
         return True
 
-
     @staticmethod
     def load_by_user_id(cursor, user_id):
         sql = 'SELECT * FROM users WHERE id= %s'
@@ -87,35 +87,10 @@ class User:
         sql = "DELETE FROM users WHERE id=%s"
         value = (self.__id,)
         cursor.execute(sql, value)
-        # self.__id = -1
         return True
 
     def __repr__(self):
         return f'{self.user_id} {self.username} - {self.email}'
 
     def __str__(self):
-        return  'User: {}, id: {}, email:{}'.\
-            format(self.username, self.__id, self.email)
-
-
-cnx, cursor = connect_to_db()
-
-# new_user3 = User()
-# # #new_user.username = 'grazyna'
-# # # # new_user.email = "grazyna@mail.com"
-# # # # new_user.set_password('haslo')
-# # # # new_user.save_to_db(cursor)
-# # new_user3.username = 'buu'
-# # new_user3.email = "buuu@mail.com"
-# # new_user3.set_password('buuu')
-# # new_user3.save_to_db(cursor)
-# # close_connection(cursor, cnx)
-# # user_to_delete = User.load_by_user_id(cursor, 12)
-# # print(user_to_delete)
-# # user_to_delete.delete_user(cursor)
-# all = User.load_all_users(cursor)
-# print(all)
-# # all = User.load_all_users(cursor)
-# # print(all)
-# # new_user3.delete_user(cursor, 2)
-# close_connection(cursor, cnx)
+        return f'User: {self.username}, id: {self.__id}, email:{self.email}'
