@@ -4,11 +4,12 @@ from database.db_production import connect_to_db, close_connection
 
 #TODO finish all methods
 class Message:
-    def __init__(self, from_user, to_user, text):
-        self.from_user = from_user
-        self.to_user = to_user
-        self.text = text
-        self.creation_date = ''
+    def __init__(self):
+        self.__id = -1
+        self.from_user = ""
+        self.to_user = ""
+        self.text = ""
+        self.creation_date = time.strftime('%Y-%m-%d %H:%M:%S')
 
     @property
     def message_id(self):
@@ -16,11 +17,10 @@ class Message:
 
     def save_message_to_db(self, cursor):
         if self.__id == -1:
-            sql = """INSERT INTO message(from_user_id, to_user_id, text, creation_date)
-                        VALUES (%s, %s, %s, %s, '%s')
+            sql = """INSERT INTO messages(from_user_id, to_user_id, text, creation_date)
+                        VALUES (%s, %s, %s, %s)
                       """
-            send_time = time.strftime('%Y-%m-%d %H:%M:%S')
-            values = (self.from_user, self.to_user, self.text, send_time)
+            values = (self.from_user, self.to_user, self.text, self.creation_date)
             cursor.execute(sql, values)
             return True
         return False
