@@ -54,7 +54,3 @@ def create_table(sql_table):
             print(err_db.msg)
     finally:
         close_connection(cursor, cnx)
-
-# # create_db()
-# # create_table(users_table)
-# # create_table(messages_table)
