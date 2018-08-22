@@ -1,7 +1,7 @@
 import argparse
 
 from database.db_production import connect_to_db, close_connection
-from models.user import User
+from models.message import Message
 
 
 def manage_options():
@@ -20,7 +20,8 @@ def manage_options():
     parse_options = parser.parse_args()
     return parse_options
 
+
 def manage_users(parse_options):
     cnx, cursor = connect_to_db()
-    #TODO write instructions for manager
+# TODO write instructions for manager
     close_connection(cursor, cnx)
