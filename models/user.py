@@ -1,8 +1,7 @@
 from passlib.hash import argon2
-from database.db_production import connect_to_db, close_connection
 
 
-#TODO finish tests
+# TODO finish tests
 class User:
     def __init__(self):
         self.__id = -1
@@ -31,7 +30,6 @@ class User:
             return True
         return False
 
-
     def verify_user(self, cursor, username, password_try):
         sql = "SELECT * FROM users WHERE username=%s LIMIT 1"
         value = (username, )
@@ -41,7 +39,7 @@ class User:
             self.__id = data[0]
             self.email = data[2]
             self.__hashed_password = data[3]
-        if argon2.verify(password_try,self.__hashed_password):
+        if argon2.verify(password_try, self.__hashed_password):
             return True
         return False
 
@@ -93,4 +91,4 @@ class User:
         return f'{self.user_id} {self.username} - {self.email}'
 
     def __str__(self):
-        return f'User: {self.username}, id: {self.__id}, email:{self.email}'
+        return f'User: {self.username}, email:{self.email}'

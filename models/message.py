@@ -1,6 +1,4 @@
 from time import strftime
-from models.user import User
-from database.db_production import connect_to_db, close_connection
 
 
 # TODO finish all methods
@@ -10,7 +8,7 @@ class Message:
         self.from_user_id = ""
         self.to_user_id = ""
         self.text = ""
-        self.creation_date = ''
+        self.creation_date = ""
 
     @property
     def message_id(self):
