@@ -90,6 +90,3 @@ class User:
 
     def __str__(self):
         return f'User: {self.username}, email:{self.email}'
-
-if __main__=='__name__':
-    User()
