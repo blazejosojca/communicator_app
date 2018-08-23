@@ -11,6 +11,8 @@ def connect_to_db():
             password=DATABASE['PASSWORD'],
             database=DATABASE['NAME'],
          )
+        cursor = cnx.cursor()
+        return cnx, cursor
     except connector.Error as db_error:
         if db_error.errno == db_errorcode.ER_ACCESS_DENIED_ERROR:
             print("Access denied, please check your credentials.")
@@ -18,8 +20,6 @@ def connect_to_db():
             print("DB dosen't exist.")
         else:
             print(db_error.msg)
-    cursor = cnx.cursor()
-    return cnx, cursor
 
 
 def close_connection(cursor, cnx):
