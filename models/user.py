@@ -1,8 +1,6 @@
 from passlib.hash import argon2
 from database.db_production import close_connection, connect_to_db
 
-
-# TODO finish tests
 class User:
     def __init__(self):
         self.__id = -1
@@ -92,3 +90,6 @@ class User:
 
     def __str__(self):
         return f'User: {self.username}, email:{self.email}'
+
+if __main__=='__name__':
+    User()
