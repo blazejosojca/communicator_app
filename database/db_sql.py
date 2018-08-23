@@ -47,10 +47,10 @@ def create_table(sql_table):
     try:
         cursor.execute(sql_table)
         print(f"Creating table {sql_table}")
-    except mysql.connector.Error as err_db:
-        if err_db == errorcode.ER_TABLE_EXISTS_ERROR:
+    except mysql.connector.Error as db_error:
+        if db_error == errorcode.ER_TABLE_EXISTS_ERROR:
             print("table already exist")
         else:
-            print(err_db.msg)
+            print(db_error.msg)
     finally:
         close_connection(cursor, cnx)
