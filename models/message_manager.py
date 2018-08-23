@@ -1,7 +1,7 @@
 import argparse
 
 from database.db_production import connect_to_db, close_connection
-from models.message import Message
+from .message import Message
 
 
 def manage_options():

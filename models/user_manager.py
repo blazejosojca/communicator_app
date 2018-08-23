@@ -1,6 +1,5 @@
 import argparse
-from models.user import User
-from models.message import Message
+from .user import User
 from database.db_production import connect_to_db, close_connection
 
 
@@ -29,7 +28,7 @@ def arg_options():
     return parse_options
 
 
-def arg_manager(parse_options):
+def args_manager(parse_options):
 
     def remove_user_by_name(cursor, parse_options):
         user_to_remove = User()
@@ -39,22 +38,13 @@ def arg_manager(parse_options):
         else:
             print(f'User{parse_options.username}, wasn.t removed. '
                   f'Please check credentials ')
-    def
-
-        if (all([parse_options.remove, parse_options.username, parse_options.password]) and
-                not any([parse_options.list, parse_options.new_password, parse_options.modify,
-                         parse_options.view, parse_options.user_id])):
-            user_to_remove = User()
-            if user_to_remove.verify_user(cursor, parse_options.username, parse_options.password):
-                pass
-
 
 
     cnx, cursor = connect_to_db()
 
     # for save_to_db()
 
-    if(all([parse_options.username, parse_options.email, parse_options.password])
+    if (all([parse_options.username, parse_options.email, parse_options.password])
             and not any([parse_options.remove, parse_options.list, parse_options.new_password,
                          parse_options.modify, parse_options.view, parse_options.user_id])):
         new_user = User()
@@ -71,7 +61,6 @@ def arg_manager(parse_options):
                      parse_options.view, parse_options.user_id])):
         remove_user_by_name(cursor, parse_options)
 
-
     # for load_all_users()
     if(parse_options.list
             and not any([parse_options.remove, parse_options.new_password, parse_options.modify,
@@ -79,9 +68,6 @@ def arg_manager(parse_options):
         users = User.load_all_users(cursor)
         for user in users:
             print(user)
-
-    # for remove user by id
-
 
     # for load_user_by_id()
     if (all([parse_options.view, parse_options.user_id]) and
@@ -107,5 +93,4 @@ def arg_manager(parse_options):
     close_connection(cursor, cnx)
 
 if __name__ == '__main__':
-    arg_manager(arg_options())
-
+    args_manager(arg_options())
