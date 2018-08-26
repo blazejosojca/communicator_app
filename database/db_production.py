@@ -1,6 +1,6 @@
 from mysql import connector
 from mysql.connector import errorcode as db_errorcode
-from manager_module.database.db_data import DATABASE
+from database.db_data import DATABASE
 
 
 def connect_to_db():
