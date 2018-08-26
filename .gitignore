@@ -106,12 +106,10 @@ venv_communicator
 .mypy_cache/
 
 # configurations files
-database/db_data.py
+manager_module/database/db_data.py
 /useful_tool.py
 
 # py packages
 *.whl
 *.tar.gz
 
-# dir with hash functions - test
-/hash_module

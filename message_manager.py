@@ -1,8 +1,5 @@
 import argparse
 
-from database.db_production import connect_to_db, close_connection
-from .message import Message
-
 
 def manage_options():
     parser = argparse.ArgumentParser()
@@ -20,8 +17,4 @@ def manage_options():
     parse_options = parser.parse_args()
     return parse_options
 
-
-def manage_users(parse_options):
-    cnx, cursor = connect_to_db()
-# TODO write instructions for manager
-    close_connection(cursor, cnx)
+# TODO - fix this stuff

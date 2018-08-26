@@ -1,5 +1,5 @@
 from passlib.hash import argon2
-from database.db_production import close_connection, connect_to_db
+
 
 class User:
     def __init__(self):
