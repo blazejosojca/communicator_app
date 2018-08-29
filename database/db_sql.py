@@ -1,7 +1,7 @@
 import mysql.connector
 from mysql.connector import errorcode
-from manager_module.database.db_data import DATABASE
-from manager_module.database import close_connection, connect_to_db
+from database.db_data import DATABASE
+from database.db_production import close_connection, connect_to_db
 
 users_table = """
     CREATE TABLE users (
