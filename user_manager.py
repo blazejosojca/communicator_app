@@ -3,28 +3,61 @@ from models.user import User
 from database.db_production import close_connection, connect_to_db
 
 
-def arg_options():
-    parser = argparse.ArgumentParser(description="communication_app", add_help=True)
-    parser.add_argument("-username", action="store",
-                        dest="username", help="User login")
-    parser.add_argument("-password", action="store",
-                        dest="password", help="User password")
-    parser.add_argument("-email", action="store",
-                        dest="email", help="User mail")
-    parser.add_argument("-new-password", action="store",
-                        dest="new_password", help="New user password")
-    parser.add_argument("-list", action="store_true",
-                        dest="list", help="Get users list")
-    parser.add_argument("-remove", action="store",
-                        dest="remove", help="Remove user")
-    parser.add_argument("-modify", action="store",
-                        dest="modify", help="Modify user")
-    parser.add_argument("-user-id", action="store", type=int,
-                        dest="user_id", help="User id")
-    parser.add_argument("-v", "--view_user", action="store_true",
-                        dest="view", help="View user by id")
+def create():
+    print("create")
 
-    parse_options = parser.parse_args()
-    return parse_options
 
-# TODO - fix this
+def view():
+    print("view")
+
+
+def modify():
+    print("modify")
+
+
+def remove():
+    print("remove")
+
+
+
+def list():
+    print("list_all_users")
+
+
+parent_parser = argparse.ArgumentParser(add_help=False)
+parent_parser.add_argument('-u', '-username', action='store', dest='username', help='User name')
+parent_parser.add_argument('-p', '-password', action='store', dest='password', help='User password')
+
+main_parser = argparse.ArgumentParser()
+
+subparsers = main_parser.add_subparsers(dest='command', help='Main commands')
+create_user = subparsers.add_parser('create', help='Create user', parents=[parent_parser])
+create_user.add_argument('-e', '--email', action='store', dest='email', help='User mail')
+
+view_user = subparsers.add_parser("view", help='View selected user')
+view_user.add_argument('-id', '--user_id', action='store', dest='id', help='Id of selected user')
+
+modify_user = subparsers.add_parser("modify", help="Modify user", parents=[parent_parser])
+modify_user.add_argument('-np' '--new_pasword', action='store', help="New user password")
+
+remove_user = subparsers.add_parser("remove", help="Remove selected users", parents=[parent_parser])
+
+list_all_users = subparsers.add_parser("list", help="List of all users")
+
+args = main_parser.parse_args()
+print(args)
+
+if args.command == 'create':
+    create()
+
+if args.command == 'view':
+    view()
+
+if args.command == 'modify':
+    modify()
+
+if args.command == 'remove':
+    remove()
+
+if args.command == 'list':
+    list()
