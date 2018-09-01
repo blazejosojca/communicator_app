@@ -4,10 +4,6 @@ from models.message import Message
 from database.db_production import close_connection, connect_to_db
 
 
-def remove():
-    print("remove")
-
-
 parent_parser = argparse.ArgumentParser(add_help=False)
 parent_parser.add_argument('-u', '--username', action='store', dest='username', help='User name')
 parent_parser.add_argument('-p', '--password', action='store', dest='password', help='User password')
@@ -55,8 +51,14 @@ if args.command == 'modify_password':
     else:
         print('Password wasn\'t changed. Check credentials.')
 
-if args.command == 'remove':
-    remove()
+if args.command == 'remove_user':
+    user_to_remove = User()
+    if user_to_remove.verify_user(cursor, args.username, args.password):
+        user_to_remove.remove_user(cursor)
+        print(f'{user_to_remove} was removed')
+    else:
+        print('It\'s impossible to remove this user. Please check your credentials')
+
 
 if args.command == 'list_users':
     users = User.load_all_users(cursor)
