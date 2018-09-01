@@ -19,7 +19,6 @@ def remove():
     print("remove")
 
 
-
 def list():
     print("list_all_users")
 
@@ -38,7 +37,7 @@ view_user = subparsers.add_parser("view", help='View selected user')
 view_user.add_argument('-id', '--user_id', action='store', dest='id', help='Id of selected user')
 
 modify_user = subparsers.add_parser("modify", help="Modify user", parents=[parent_parser])
-modify_user.add_argument('-np' '--new_pasword', action='store', help="New user password")
+modify_user.add_argument('-np' '--new_password', action='store', help="New user password")
 
 remove_user = subparsers.add_parser("remove", help="Remove selected users", parents=[parent_parser])
 
