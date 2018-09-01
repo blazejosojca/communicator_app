@@ -4,25 +4,13 @@ from models.message import Message
 from database.db_production import close_connection, connect_to_db
 
 
-def view():
-    print("view")
-
-
-def modify():
-    print("modify")
-
-
 def remove():
     print("remove")
 
 
-def list():
-    print("list_all_users")
-
-
 parent_parser = argparse.ArgumentParser(add_help=False)
-parent_parser.add_argument('-u', '-username', action='store', dest='username', help='User name')
-parent_parser.add_argument('-p', '-password', action='store', dest='password', help='User password')
+parent_parser.add_argument('-u', '--username', action='store', dest='username', help='User name')
+parent_parser.add_argument('-p', '--password', action='store', dest='password', help='User password')
 
 main_parser = argparse.ArgumentParser()
 
@@ -33,8 +21,8 @@ create_user.add_argument('-e', '--email', action='store', dest='email', help='Us
 view_user = subparsers.add_parser("view_user", help='View selected user')
 view_user.add_argument('-id', '--user_id', action='store', dest='id', help='Id of selected user')
 
-modify_user = subparsers.add_parser("modify_user", help="Modify user", parents=[parent_parser])
-modify_user.add_argument('-np' '--new_password', action='store', help="New user password")
+modify_password = subparsers.add_parser("modify_password", help="Modify user password", parents=[parent_parser])
+modify_password.add_argument('-np' '--new_password', action='store', dest='new_password', help="New user password")
 
 remove_user = subparsers.add_parser("remove_user", help="Remove selected users", parents=[parent_parser])
 
@@ -54,11 +42,18 @@ if args.command == 'create_user':
     print("New user was aded to db - name: {new_user.usermail}")
 
 
-if args.command == 'view':
-    view()
+if args.command == 'view_user':
+    user = User.load_by_user_id(cursor, args.id)
+    print(user)
 
-if args.command == 'modify':
-    modify()
+if args.command == 'modify_password':
+    user = User()
+    if user.verify_user(cursor, args.username, args.password):
+        user.set_password(args.new_password)
+        user.update_password(cursor)
+        print(f'Password was updated!')
+    else:
+        print('Password wasn\'t changed. Check credentials.')
 
 if args.command == 'remove':
     remove()
@@ -68,3 +63,4 @@ if args.command == 'list_users':
     for user in users:
         print(user)
 
+close_connection(cursor, cnx)
