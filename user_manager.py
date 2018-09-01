@@ -46,8 +46,16 @@ list_all_users = subparsers.add_parser("list", help="List of all users")
 args = main_parser.parse_args()
 print(args)
 
+cnx, cursor = connect_to_db()
+
 if args.command == 'create':
-    create()
+    new_user = User()
+    new_user.username = args.username
+    new_user.email = args.email
+    new_user.set_password(args.password)
+    new_user.save_to_db(cursor)
+    print("New user was aded to db - name: {new_user.usermail}")
+
 
 if args.command == 'view':
     view()
@@ -60,3 +68,4 @@ if args.command == 'remove':
 
 if args.command == 'list':
     list()
+
