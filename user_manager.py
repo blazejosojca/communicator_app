@@ -1,10 +1,7 @@
 import argparse
 from models.user import User
+from models.message import Message
 from database.db_production import close_connection, connect_to_db
-
-
-def create():
-    print("create")
 
 
 def view():
@@ -30,25 +27,25 @@ parent_parser.add_argument('-p', '-password', action='store', dest='password', h
 main_parser = argparse.ArgumentParser()
 
 subparsers = main_parser.add_subparsers(dest='command', help='Main commands')
-create_user = subparsers.add_parser('create', help='Create user', parents=[parent_parser])
+create_user = subparsers.add_parser('create_user', help='Create user', parents=[parent_parser])
 create_user.add_argument('-e', '--email', action='store', dest='email', help='User mail')
 
-view_user = subparsers.add_parser("view", help='View selected user')
+view_user = subparsers.add_parser("view_user", help='View selected user')
 view_user.add_argument('-id', '--user_id', action='store', dest='id', help='Id of selected user')
 
-modify_user = subparsers.add_parser("modify", help="Modify user", parents=[parent_parser])
+modify_user = subparsers.add_parser("modify_user", help="Modify user", parents=[parent_parser])
 modify_user.add_argument('-np' '--new_password', action='store', help="New user password")
 
-remove_user = subparsers.add_parser("remove", help="Remove selected users", parents=[parent_parser])
+remove_user = subparsers.add_parser("remove_user", help="Remove selected users", parents=[parent_parser])
 
-list_all_users = subparsers.add_parser("list", help="List of all users")
+list__users = subparsers.add_parser("list_users", help="List of all users")
 
 args = main_parser.parse_args()
 print(args)
 
 cnx, cursor = connect_to_db()
 
-if args.command == 'create':
+if args.command == 'create_user':
     new_user = User()
     new_user.username = args.username
     new_user.email = args.email
@@ -66,6 +63,8 @@ if args.command == 'modify':
 if args.command == 'remove':
     remove()
 
-if args.command == 'list':
-    list()
+if args.command == 'list_users':
+    users = User.load_all_users(cursor)
+    for user in users:
+        print(user)
 
