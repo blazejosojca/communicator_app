@@ -24,7 +24,6 @@ class User:
             sql = """INSERT INTO users(username, email, hashed_password) 
                 VALUES (%s, %s, %s)"""
             values = (self.username, self.email, self.hashed_password)
-            print(values)
             cursor.execute(sql, values)
             return True
         return False
@@ -75,7 +74,6 @@ class User:
             loaded_user.__id = user[0]
             loaded_user.username = user[1]
             loaded_user.email = user[2]
-            loaded_user.__hashed_password = user[3]
             all_users.append(loaded_user)
         return all_users
 
