@@ -79,4 +79,4 @@ class Message:
         return None
 
     def __str__(self):
-        return f'from {self.from_user_id} to {self.to_user_id}: {self.text}'
+        return f'from {self.from_user_id} to {self.to_user_id}: {self.text} - {self.creation_date}'

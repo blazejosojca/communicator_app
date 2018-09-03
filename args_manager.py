@@ -78,6 +78,18 @@ if args.command == 'list_users':
         print(user)
 
 if args.command == 'create_message':
-    pass
+    user = User()
+    if user.verify_user(cursor, args.username, args.password):
+        new_message = Message()
+        new_message.from_user_id = args.from_user
+        new_message.to_user_id = args.to_user
+        new_message.text = args.text
+        Message.set_creation_date()
+        new_message.save_message_to_db(cursor)
+        print(f'message for user{args.to_user} was created' )
+    else:
+        print('Your credentials don\'t work. Please check them.')
+
+
 
 close_connection(cursor, cnx)
