@@ -40,7 +40,8 @@ class Message:
             loaded_message.from_user_id = data[1]
             loaded_message.to_user_id = data[2]
             loaded_message.text = data[3]
-            return loaded_message
+            loaded_message.creation_date = data[4]
+            print(loaded_message)
         return None
 
     @staticmethod
@@ -79,4 +80,6 @@ class Message:
         return None
 
     def __str__(self):
-        return f'from {self.from_user_id} to {self.to_user_id}: {self.text} - {self.creation_date}'
+        return f'from {self.from_user_id} to {self.to_user_id}: {self.text} / sent: {self.creation_date}'
+
+

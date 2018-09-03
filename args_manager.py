@@ -90,6 +90,18 @@ if args.command == 'create_message':
     else:
         print('Your credentials don\'t work. Please check them.')
 
+if args.command == 'view_message':
+    user = User()
+    if user.verify_user(cursor, args.username, args.password):
+        print(Message().load_message_by_id(cursor, args.id))
+    else:
+        print('Your credentials don\'t work. Please check them.')
 
+if args.command == 'list_all_messages':
+
+    pass
+
+if args.command == 'ist_messages_for_user':
+    pass
 
 close_connection(cursor, cnx)
