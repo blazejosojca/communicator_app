@@ -44,6 +44,7 @@ class Message:
             print(loaded_message)
         return None
 
+
     @staticmethod
     def load_all_messages(cursor):
         sql = "SELECT * FROM messages"
@@ -63,7 +64,7 @@ class Message:
 
     # this method load message for user by from_user_id
     @staticmethod
-    def load_all_messages_for_user(cursor, user_id):
+    def load_all_messages_from_user(cursor, user_id):
         sql = 'SELECT * FROM messages WHERE from_user_id = %s'
         value = (user_id,)
         cursor.execute(sql, value)

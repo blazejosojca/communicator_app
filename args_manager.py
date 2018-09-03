@@ -12,10 +12,12 @@ main_parser = argparse.ArgumentParser()
 
 subparsers = main_parser.add_subparsers(dest='command', help='Main commands')
 
-create_user = subparsers.add_parser('create_user', help='Create user', parents=[parent_parser])
+create_user = subparsers.add_parser('create_user', help='Create user',
+                                    parents=[parent_parser])
 create_user.add_argument('-e', '--email', action='store', dest='email', help='User mail')
 
-create_message = subparsers.add_parser('create_message', help='Create message', parents=[parent_parser])
+create_message = subparsers.add_parser('create_message', help='Create message',
+                                       parents=[parent_parser])
 create_message.add_argument('-to', '--to_user', action='store', dest='to_user', help="Id of recipient")
 create_message.add_argument('-from', '--from_user', action='store', dest='from_user', help="Id of sende")
 create_message.add_argument('-t', '--text', action='store', dest='text', help='Enter the text')
@@ -26,16 +28,17 @@ view_user.add_argument('-id', '--user_id', action='store', dest='id', help='Id o
 view_message = subparsers.add_parser("view_message", help='View selected message', parents=[parent_parser])
 view_message.add_argument('-id', '--message_id', action='store', dest='id', help='Id of selected message')
 
-modify_password = subparsers.add_parser("modify_password", help="Modify user password", parents=[parent_parser])
+modify_password = subparsers.add_parser("modify_password", help="Modify user password",
+                                        parents=[parent_parser])
 modify_password.add_argument('-np' '--new_password', action='store', dest='new_password', help="New user password")
 
-remove_user = subparsers.add_parser("remove_user", help="Remove selected users", parents=[parent_parser])
+remove_user = subparsers.add_parser("remove_user", help="Remove selected users",
+                                    parents=[parent_parser])
 
 list_users = subparsers.add_parser("list_users", help="List of all users")
 
-list_all_messages = subparsers.add_parser("list_all_messages", help="List of all messages", parents=[parent_parser])
-
-list_messages_for_user = subparsers.add_parser("list_messages_for_user", help="List messages for user", parents=[parent_parser])
+list_messages_for_user = subparsers.add_parser("list_messages_from_user", help="List messages for user",
+                                               parents=[parent_parser])
 list_messages_for_user.add_argument('-id', '--user_id', action='store', dest='id', help='Id of selected user')
 
 args = main_parser.parse_args()
@@ -86,22 +89,22 @@ if args.command == 'create_message':
         new_message.text = args.text
         Message.set_creation_date()
         new_message.save_message_to_db(cursor)
-        print(f'message for user{args.to_user} was created' )
+        print(f'message for user{args.to_user} was created')
     else:
         print('Your credentials don\'t work. Please check them.')
 
 if args.command == 'view_message':
     user = User()
     if user.verify_user(cursor, args.username, args.password):
-        print(Message().load_message_by_id(cursor, args.id))
+        Message().load_message_by_id(cursor, args.id)
     else:
         print('Your credentials don\'t work. Please check them.')
 
-if args.command == 'list_all_messages':
-
-    pass
-
-if args.command == 'ist_messages_for_user':
-    pass
+if args.command == 'list_messages_from_user':
+    user = User()
+    if user.verify_user(cursor, args.username, args.password):
+        Message.load_all_messages_from_user(cursor, args.id)
+    else:
+        print('Your credentials don\'t work. Please check them.')
 
 close_connection(cursor, cnx)
