@@ -44,7 +44,6 @@ class Message:
             print(loaded_message)
         return None
 
-
     @staticmethod
     def load_all_messages(cursor):
         sql = "SELECT * FROM messages"
@@ -82,5 +81,3 @@ class Message:
 
     def __str__(self):
         return f'from {self.from_user_id} to {self.to_user_id}: {self.text} / sent: {self.creation_date}'
-
-
